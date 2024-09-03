@@ -79,7 +79,7 @@ startup(){
 	if [ "$type_scan" = "f" ]; then
 		echo "[${BLUE}INFO${NC}]Take a coffee this may take some time... :)"
 		for port in {1..65535}; do
-			response=$(nc -q 0.1 -zv $ip $port 2>&1)
+			response=$(nc -q 1 -zv $ip $port 2>&1)
 			if [[ "$response" == *'open'* ]]; then
 				write_report "The port $port is ${BLUE}open${NC}"
 			else
@@ -91,7 +91,7 @@ startup(){
 		case $port in
 			21)
 				resposne=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "\r\n" | nc -q 1 $ip $port)
 					write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
@@ -102,7 +102,7 @@ startup(){
 			;;
 			22)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "\r\n" | nc $ip $port)
 					write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
@@ -114,7 +114,7 @@ startup(){
 			;;
 			23)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(telnet -V $ip)
 					write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
@@ -127,7 +127,7 @@ startup(){
 			;;
 			25)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "EHLO example.com\r\n" | nc -q 1 172.16.10.89 25)
 					write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
@@ -150,7 +150,7 @@ startup(){
 			;;
 			110)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "\r\n" | nc -q 1 $ip $port)
                                         write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
@@ -161,7 +161,7 @@ startup(){
 			;;
 			143)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "\r\n\r" | nc -q 1 172.16.10.89 143)
 					write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
@@ -172,7 +172,7 @@ startup(){
 			;;
 			139)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(smbclient -L //$ip -N)
 					write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
@@ -183,7 +183,7 @@ startup(){
 			;;
 			445)
                                 response=$(nc -zv $ip $port 2>&1)
-                                if [[ "$response" == *"open"* ]]; then
+                                if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
                                         version=$(smbclient -L //$ip -N)
                                         write_report "The port $port is ${BLUE}open${NC}"
                                         write_report "$version"
@@ -194,7 +194,7 @@ startup(){
 			;;
 			443)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "HEAD / HTTP/1.0\r\n\r\n" | openssl s_client -connect $ip:443 2>/dev/null | grep "Server:")
 					write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
@@ -205,7 +205,7 @@ startup(){
 			;;
 			3306)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "\r\n" | nc -q 1 $ip $port)
                                         write_report "The port $port is ${BLUE}open${NC}"
                                         write_report "$version"
@@ -217,7 +217,7 @@ startup(){
 			;;
 			*)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "\r\n" | nc -q 1 $ip $port)
                                         write_report "The port $port is ${BLUE}open${NC}"
                                         write_report "$version"
