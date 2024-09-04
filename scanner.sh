@@ -139,7 +139,7 @@ startup(){
 			;;
 			80)
 				response=$(nc -zv $ip $port 2>&1)
-				if [[ "$response" == *"open"* ]]; then
+				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "HEAD / HTTP/1.0\r\n\r\n" | nc $ip $port | grep Server)
 					write_report "The port $port is ${BLUE}open${NC}"
 					write_report "$version"
