@@ -90,7 +90,7 @@ startup(){
 		read -p "Enter port to scan: " port
 		case $port in
 			21)
-				resposne=$(nc -zv $ip $port 2>&1)
+				response=$(nc -zv $ip $port 2>&1)
 				if [[ "$response" == *"open"* || "$response" == *"succeeded"* ]]; then
 					version=$(echo -e "\r\n" | nc -q 1 $ip $port)
 					write_report "The port $port is ${BLUE}open${NC}"
